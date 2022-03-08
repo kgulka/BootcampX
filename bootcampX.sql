@@ -13,7 +13,7 @@ CREATE TABLE famous_people (
 
 INSERT INTO famous_people (first_name, last_name, birthdate)
   VALUES ('Abraham', 'Lincoln', '1809-02-12');
-  
+
 -- A cohort will have the following attributes:
 
 -- id: A unique identifier
@@ -46,3 +46,12 @@ CREATE TABLE cohort (
   start_date DATE,
   end_date DATE,
   cohort_id INTEGER REFERENCES cohorts(id) ON DELETE CASCADE);
+
+
+
+SELECT students.name as student, count(assignment_submissions.*) as total_submissions
+FROM assignment_submissions
+JOIN students ON students.id = student_id
+where students.end_date IS NULL
+GROUP BY students.name
+HAVING count(assignment_submissions.*) < 100;
