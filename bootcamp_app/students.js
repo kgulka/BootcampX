@@ -12,9 +12,9 @@ pool.query(
   `SELECT students.id, students.name, cohorts.name as cohort
     FROM students
     INNER JOIN cohorts ON students.cohort_id = cohorts.id
-    WHERE cohorts.name LIKE '%${cohortName}%'
-    LIMIT ${rowLimit};
-  `)
+    WHERE cohorts.name LIKE $1
+    LIMIT $2;
+  `,[`%${cohortName}%`, rowLimit])
   .then(res => {
     res.rows.forEach(user => {
       console.log(`${user.name} has an id of ${user.id} and was in the ${user.cohort} cohort`);

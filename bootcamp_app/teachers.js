@@ -14,15 +14,16 @@ pool.query(
   INNER JOIN students ON cohorts.id = students.cohort_id
   INNER JOIN assistance_requests ar ON  ar.student_id = students.id
   INNER JOIN teachers ON teachers.id = ar.teacher_id
-  WHERE cohorts.name = '${cohortName}'
+  WHERE cohorts.name = $1
   GROUP BY teachers.name, cohorts.name
   ORDER BY teachers.name;
-  `)
+  `,[cohortName])
   .then(res => {
     //console.log(res.rows);
     res.rows.forEach(teacher => {
       console.log(`${teacher.teacher} assisted in the ${teacher.cohort} cohort`);
-      
+    
     });
+    pool.end();
   })
   .catch(err => console.error('query error', err.stack));
